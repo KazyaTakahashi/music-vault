@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// import { Navbar } from "../components/musicVault/Navbar";
+import { Navbar } from "./components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,17 +14,17 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: {
-    template: '%s · Kazya Takahashi',
-    default: 'Kazya Takahashi',
+    template: '%s · Music Vault',
+    default: 'Music Vault',
   },
-  description: 'My portfolio website',
+  description: 'A place to sort and store your music',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
-        {/* <Navbar /> */}
+        <Navbar />
         
         
         <main style={{marginTop: "60px"}}>

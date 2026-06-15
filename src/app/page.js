@@ -1,15 +1,12 @@
-
-
-export const metadata = {
-  title: "Music Vault",
-  description: "A place to sort your music",
-}
+import Link from "next/link"
 
 export default function HomePage() {
   return (
     <>
-    <h1>Welcome to Music Vault</h1>
-    <p>Discover and manage your music collection with ease.</p>
+    <h1>Kazya Takahashi</h1>
+    <p>Welcome to my website!</p>
+
+    <Link href="/MV/home"><h3>Music Vault</h3></Link>
     <div>
       <a href="https://www.linkedin.com/in/kazya-takahashi/">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="gray" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" >
@@ -21,9 +18,7 @@ export default function HomePage() {
       <a href="https://www.linkedin.com/in/kazya-takahashi/">LinkedIn</a>
     </div>
     
-    <footer>
-      <a href="https://www.linkedin.com/in/kazya-takahashi/">LinkedIn</a>
-    </footer>
+
     </>
   )
 }

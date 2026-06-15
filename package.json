@@ -9,9 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "googleapis": "^173.0.0",
+    "libsql": "^0.5.29",
     "next": "16.2.9",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "turso": "^0.6.0"
   },
   "devDependencies": {
     "babel-plugin-react-compiler": "1.0.0",
