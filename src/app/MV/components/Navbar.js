@@ -1,10 +1,8 @@
-import navbarStyles from './Navbar.module.css';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 import { LogoutButton } from './Logout';
 import { verifyJwt } from '../lib/jwt';
-
-
+import navbarStyles from './Navbar.module.css';
 
 export async function Navbar() {
   const cookieStore = await cookies();
@@ -14,21 +12,24 @@ export async function Navbar() {
 
   return (
     <header className={navbarStyles.Navbar}>
-      <Link style={{float:"left"}} href="/MV">Logo/Brand</Link>
+      <Link className={navbarStyles.brand} href="/MV">
+        Logo/Brand
+      </Link>
 
-      {/* <Link href="/MV/logout">Dark/Light</Link> */}
-      {isLoggedIn ? (
-        <LogoutButton className={navbarStyles.logout} />
-      ) : (
-        <div>
-          <Link href="/MV/login">Login</Link>
-          <Link href="/MV/register">Register</Link>
-        </div>
-      )}
+      <nav className={navbarStyles.navLinks}>
+        <Link href="/MV/vault">My Vault</Link>
+        <Link href="/MV/stats">Stats</Link>
+        <Link href="/MV/about">About</Link>
 
-      <Link href="/MV/about">About</Link>
-      <Link href="/MV/stats">Stats</Link>
-      <Link href="/MV/vault">My Vault</Link>
+        {isLoggedIn ? (
+          <LogoutButton className={navbarStyles.logoutButton} />
+        ) : (
+          <div className={navbarStyles.authLinks}>
+            <Link href="/MV/login">Login</Link>
+            <Link href="/MV/register">Register</Link>
+          </div>
+        )}
+      </nav>
     </header>
-  )
+  );
 }

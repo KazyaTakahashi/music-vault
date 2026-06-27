@@ -1,5 +1,5 @@
 "use client";
-
+import styles from "./YoutubeAPI.module.css";
 import { useRef, useState } from 'react';
 
 export function YoutubeAPI(){
@@ -28,7 +28,7 @@ export function YoutubeAPI(){
 
   return (
     <>
-    <form onSubmit={handleLink}>
+    <form className={styles.Link} onSubmit={handleLink}>
       <input
         name="urlInput"
         placeholder="Youtube link"

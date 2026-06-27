@@ -1,37 +1,54 @@
 .Navbar {
-  background-color: hsl(220, 20%, 7%);
-  font-family: 'Courier New', Courier, monospace;
-  color: aliceblue;
-
-  top: 0;
-  right: 0;
-  left: 0;
   position: fixed;
-  margin: 0;
-  
-  padding-left: 1rem;
-  padding-right: 1rem;
-
-  border-style: solid;
-  border-width: 0px;
-  border-color: hsl(220, 14%, 18%);
-  border-bottom-width: 3px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(10, 18, 34, 0.95);
+  border-bottom: 1px solid rgba(46, 131, 209, 0.2);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
 }
 
-.Navbar a {
+.brand {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
   text-decoration: none;
-  color: aliceblue;
-  height: 20px;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1.1rem;
-  padding-bottom: 1rem;
-  float: right;
 }
 
-.Navbar a:hover {
-  transition-duration: .15s;
-  transition-property: color;
-  color: red;
+.navLinks {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
+.navLinks a {
+  color: #dbeafe;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.navLinks a:hover {
+  background: rgba(46, 131, 209, 0.14);
+  color: #ffffff;
+}
+
+.authLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoutButton {
+  margin-left: 0.5rem;
+}

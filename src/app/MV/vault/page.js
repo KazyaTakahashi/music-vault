@@ -1,7 +1,9 @@
+import './vault.css';
 import { SongsTable } from '../components/SongsTable';
-import { YoutubeAPI } from '../components/YoutubeAPI';
+import { SongInput } from '../components/SongInput';
 import { cookies } from 'next/headers';
 import { verifyJwt } from '../lib/jwt';
+
 
 const { google } = require('googleapis');
 const youtube = google.youtube('v3');
@@ -51,7 +53,12 @@ export default async function VaultPage() {
   const uppercaseTitle = false;
   const displayEndMessage = true;
 
-  const title = uppercaseTitle ? "Kazya Takahashi's Music Vault".toUpperCase() : "Kazya Takahashi's Music Vault";
+  var title = ""
+  if (isLoggedIn)
+  {
+    title = payload.username + "'s Music Vault";
+  }
+  
 
   const songList = [
     {artist:"鬱P", title:"かくさしゃかい"},
@@ -66,14 +73,15 @@ export default async function VaultPage() {
     <>
     {isLoggedIn ? (
       <>
-      <YoutubeAPI />
-      {displayTitle && <h1>{title}</h1>}
       
-      <p>Here is a list of songs I like:</p>
+      <h1>{title}</h1>
+      
+      
+      <SongInput />
+
+
       <SongsTable songListProp={songList} />
-      <p>
-        {displayEndMessage && <a href="https://www.billboard-japan.com/charts/detail?a=niconico">See More</a>}
-      </p>
+
       </>
     ) : (
       <h1>Please log in to view your vault.</h1>

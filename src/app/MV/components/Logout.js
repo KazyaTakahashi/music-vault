@@ -54,7 +54,7 @@ export function LogoutButton()
           <p>Are you sure you want to logout?</p>
           <div className={logOutStyles.dialogActions}>
             <button
-              onClick={() => setShowDialog(false)}
+              onClick={() => {setShowDialog(false); router.refresh()}}
               className={logOutStyles.cancelButton}
               disabled={isLoading}
             >

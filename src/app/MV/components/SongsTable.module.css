@@ -1,18 +1,114 @@
-.songList {
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 350px;
+.tableWrapper {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #0c1220 0%, #111827 100%);
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.45);
 }
 
-.songList li {
-  list-style: none;
-  border: 1px solid lightgray;
-  border-radius: 8px;
-  white-space: nowrap;
+.tableRow {
+  display: grid;
+  grid-template-columns: 2.2fr 1.4fr 1.4fr 1.7fr;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.headerRow {
+  background: rgba(46, 131, 209, 0.12);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell,
+.tableHeader {
+  padding: 16px 20px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tableHeader {
+  color: #e2e8f0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.tableData {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.tableRow:nth-child(even) .tableData {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tableRow:hover .tableData {
+  background: rgba(46, 131, 209, 0.1);
+}
+
+.tableCell span,
+.tableCell a {
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.linkText {
+  color: #93c5fd;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.linkText:hover {
+  color: #dbeafe;
+  transform: translateX(1px);
+}
+
+.tableMessage,
+.tableMessageError {
+  padding: 18px 20px;
+  color: #cbd5e1;
+}
+
+.tableMessageError {
+  background: rgba(248, 113, 113, 0.14);
+  color: #fecaca;
+}
+
+@media (max-width: 960px) {
+  .tableRow {
+    grid-template-columns: 1.6fr 1.2fr 1.2fr 1.4fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .tableRow,
+  .headerRow {
+    grid-template-columns: 1fr;
+  }
+
+  .headerRow {
+    display: none;
+  }
+
+  .tableCell,
+  .tableHeader {
+    padding: 14px 16px;
+  }
+
+  .tableData {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .tableCell span,
+  .tableCell a {
+    white-space: normal;
+  }
 }

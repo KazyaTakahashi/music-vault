@@ -1,15 +1,19 @@
+:root {
+  color-scheme: dark;
+}
+
 button[type="submit"] {
   position: relative;
-  padding: 10px 24px;
-  background: #4a90d9;
+  padding: 12px 24px;
+  background: #2e83d1;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 14px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 10px;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -18,29 +22,29 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover:not(:disabled) {
-  background: #357abd;
+  background: #2569b0;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(74, 144, 217, 0.3);
+  box-shadow: 0 16px 38px rgba(46, 131, 209, 0.24);
 }
 
 button[type="submit"]:disabled {
-  opacity: 0.6;
+  opacity: 0.65;
   cursor: not-allowed;
   transform: none;
 }
 
 button[type="submit"].loading {
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 .spinner {
   display: inline-block;
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.28);
   border-radius: 50%;
   border-top-color: #fff;
-  animation: spin 0.7s linear infinite;
+  animation: spin 0.75s linear infinite;
 }
 
 @keyframes spin {
@@ -49,8 +53,15 @@ button[type="submit"].loading {
   }
 }
 
+input,
+textarea {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
+}
+
 input:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
-  background-color: #f5f5f5;
+  background-color: rgba(255, 255, 255, 0.03);
 }

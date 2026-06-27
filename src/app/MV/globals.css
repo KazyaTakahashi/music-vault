@@ -1,17 +1,61 @@
 :root {
-  /* light mode */
-  --LightBG: #ffffff;
-  /* dark mode */
+  color-scheme: dark;
+}
 
+* {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-geist-sans);
-  background-color: #0e0029;
-  color:#b9b9b9
+  margin: 0;
+  color: var(--text);
+  background: transparent;
 }
 
 a {
-  text-decoration: none;
-  color:inherit;
+  color: var(--accent);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 14px;
+  padding: 12px 22px;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background: #2569b0;
+  transform: translateY(-1px);
+}
+
+button[type="submit"]:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+input,
+textarea {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.errorList {
+  margin: 1rem 0;
+  padding: 1rem 1.25rem;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: 14px;
 }
