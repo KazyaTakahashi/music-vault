@@ -74,6 +74,9 @@ export function SongInput()
           <input 
             name="songLink"
           />
+        <button type="submit">
+          Add
+        </button>
       </form>
 
       <YoutubeAPI />
