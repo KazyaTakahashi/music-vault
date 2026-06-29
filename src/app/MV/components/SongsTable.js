@@ -1,6 +1,7 @@
 "use client";
 import styles from './SongsTable.module.css';
 import { useEffect, useState } from 'react';
+import { ErrorList } from './ErrorList';
 
 const columns = [
   { key: 'title', label: 'Title' },
@@ -16,31 +17,35 @@ function getSongId(song) {
 export function SongsTable({ songListProp }) {
   const [songs, setSongs] = useState(songListProp ?? []);
   const [loading, setLoading] = useState(!songListProp?.length);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ title: '', artist: '', album: '', link: '' });
-  const [actionError, setActionError] = useState(null);
+  const [feedback, setFeedback] = useState([]);
+  const [feedbackType, setFeedbackType] = useState('error');
 
   useEffect(() => {
     let cancelled = false;
 
     async function fetchSongs() {
       setLoading(true);
-      setError(null);
+      setError([]);
+      setFeedback([]);
 
       try {
         const res = await fetch('/MV/api/songs');
+        const data = await res.json().catch(() => null);
+
         if (!res.ok) {
-          throw new Error(`Unable to load songs (${res.status})`);
+          const messages = Array.isArray(data?.message) ? data.message : ['Unable to load songs right now.'];
+          throw new Error(messages[0]);
         }
 
-        const data = await res.json();
         if (!cancelled) {
           setSongs(Array.isArray(data) ? data : []);
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err?.message ?? 'Failed to fetch songs');
+          setError([err?.message ?? 'Failed to fetch songs']);
           setSongs([]);
         }
       } finally {
@@ -70,7 +75,7 @@ export function SongsTable({ songListProp }) {
 
   function startEdit(song) {
     setEditingId(getSongId(song));
-    setActionError(null);
+    setFeedback([]);
     setEditForm({
       title: song?.title ?? '',
       artist: song?.artist ?? '',
@@ -82,7 +87,7 @@ export function SongsTable({ songListProp }) {
   function cancelEdit() {
     setEditingId(null);
     setEditForm({ title: '', artist: '', album: '', link: '' });
-    setActionError(null);
+    setFeedback([]);
   }
 
   function updateEditForm(field, value) {
@@ -94,7 +99,8 @@ export function SongsTable({ songListProp }) {
     const songID = getSongId(song);
 
     if (!songID) {
-      setActionError('Unable to identify the selected song.');
+      setFeedback(['Unable to identify the selected song.']);
+      setFeedbackType('error');
       return;
     }
 
@@ -112,14 +118,21 @@ export function SongsTable({ songListProp }) {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        throw new Error(`Unable to update song (${res.status})`);
+        setFeedback(Array.isArray(data?.message) ? data.message : ['Unable to update song right now.']);
+        setFeedbackType('error');
+        return;
       }
 
       cancelEdit();
+      setFeedback(Array.isArray(data?.message) ? data.message : ['Song updated successfully.']);
+      setFeedbackType('success');
       window.dispatchEvent(new CustomEvent('songs:refresh'));
     } catch (err) {
-      setActionError(err?.message ?? 'Failed to update song');
+      setFeedback(['Unable to update song right now.']);
+      setFeedbackType('error');
     }
   }
 
@@ -127,7 +140,8 @@ export function SongsTable({ songListProp }) {
     const songID = getSongId(song);
 
     if (!songID) {
-      setActionError('Unable to identify the selected song.');
+      setFeedback(['Unable to identify the selected song.']);
+      setFeedbackType('error');
       return;
     }
 
@@ -142,13 +156,20 @@ export function SongsTable({ songListProp }) {
         body: JSON.stringify({ type: 'delete', songID }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        throw new Error(`Unable to delete song (${res.status})`);
+        setFeedback(Array.isArray(data?.message) ? data.message : ['Unable to delete song right now.']);
+        setFeedbackType('error');
+        return;
       }
 
+      setFeedback(Array.isArray(data?.message) ? data.message : ['Song deleted successfully.']);
+      setFeedbackType('success');
       window.dispatchEvent(new CustomEvent('songs:refresh'));
     } catch (err) {
-      setActionError(err?.message ?? 'Failed to delete song');
+      setFeedback(['Unable to delete song right now.']);
+      setFeedbackType('error');
     }
   }
 
@@ -164,13 +185,25 @@ export function SongsTable({ songListProp }) {
       </div>
 
       {loading && <div className={styles.tableMessage}>Loading songs…</div>}
-      {error && <div className={styles.tableMessageError}>{error}</div>}
-      {!loading && !error && songs.length === 0 && (
+      {error.length > 0 && (
+        <div className={styles.tableMessageError}>
+          <ErrorList list={error} />
+        </div>
+      )}
+      {!loading && error.length === 0 && songs.length === 0 && (
         <div className={styles.tableMessage}>No songs available yet.</div>
       )}
-      {actionError && <div className={styles.tableMessageError}>{actionError}</div>}
+      {feedback.length > 0 && (
+        feedbackType === 'success' ? (
+          <div className={styles.tableMessageSuccess}>{feedback[0]}</div>
+        ) : (
+          <div className={styles.tableMessageError}>
+            <ErrorList list={feedback} />
+          </div>
+        )
+      )}
 
-      {!loading && !error && songs.map((song, index) => {
+      {!loading && error.length === 0 && songs.map((song, index) => {
         const songId = getSongId(song) ?? index;
         const isEditing = editingId === songId;
 

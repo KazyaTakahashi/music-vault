@@ -2,3 +2,20 @@
   margin: 8px;
 }
 
+.feedbackError,
+.feedbackSuccess {
+  margin: 1rem 0;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+}
+
+.feedbackError {
+  background: rgba(248, 113, 113, 0.14);
+  color: #fecaca;
+}
+
+.feedbackSuccess {
+  background: rgba(34, 197, 94, 0.14);
+  color: #bbf7d0;
+}
+

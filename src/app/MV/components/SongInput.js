@@ -1,6 +1,7 @@
 "use client";
 import styles from "./SongInput.module.css";
-import { YoutubeAPI } from "./YoutubeAPI";
+import { ErrorList } from "./ErrorList";
+import { LinkAPI } from "./LinkAPI";
 import { useState } from 'react';
 
 export function SongInput() {
@@ -9,19 +10,25 @@ export function SongInput() {
   const [artistInput, setArtistInput] = useState("");
   const [albumInput, setAlbumInput] = useState("");
   const [linkInput, setLinkInput] = useState("");
+  const [feedback, setFeedback] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   function toggleInput() {
-    setShowInput(!showInput);
+    setShowInput((current) => !current);
+    setFeedback([]);
+    setIsSuccess(false);
   }
 
   async function SongSubmit(e) {
     e.preventDefault();
+    setFeedback([]);
+    setIsSuccess(false);
 
     const formData = new FormData(e.target);
-    const title = formData.get('songTitle');
-    const artist = formData.get('songArtist');
-    const album = formData.get('songAlbum');
-    const link = formData.get('songLink');
+    const title = formData.get('songTitle')?.toString().trim() ?? '';
+    const artist = formData.get('songArtist')?.toString().trim() ?? '';
+    const album = formData.get('songAlbum')?.toString().trim() ?? '';
+    const link = formData.get('songLink')?.toString().trim() ?? '';
     const type = "add";
 
     try {
@@ -31,18 +38,23 @@ export function SongInput() {
         body: JSON.stringify({ type, title, artist, album, link }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        throw new Error(`Unable to add song (${res.status})`);
+        setFeedback(Array.isArray(data?.message) ? data.message : ['Unable to add song right now.']);
+        return;
       }
 
       setTitleInput("");
       setArtistInput("");
       setAlbumInput("");
       setLinkInput("");
-      setShowInput(false);
+      setFeedback(Array.isArray(data?.message) ? data.message : ['Song created successfully.']);
+      setIsSuccess(true);
       window.dispatchEvent(new CustomEvent('songs:refresh'));
     } catch (error) {
       console.error('Failed to add song', error);
+      setFeedback(['Unable to add song right now.']);
     }
   }
 
@@ -52,6 +64,16 @@ export function SongInput() {
 
       {showInput && (
         <>
+          {feedback.length > 0 && (
+            isSuccess ? (
+              <p className={styles.feedbackSuccess}>{feedback[0]}</p>
+            ) : (
+              <div className={styles.feedbackError}>
+                <ErrorList list={feedback} />
+              </div>
+            )
+          )}
+
           <form onSubmit={SongSubmit} className={styles.SongInput}>
             <label>Song Title</label> <br />
             <input
@@ -82,7 +104,7 @@ export function SongInput() {
             <button type="submit">Add</button>
           </form>
 
-          <YoutubeAPI />
+          <LinkAPI />
         </>
       )}
     </>

@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ErrorList } from '../components/ErrorList';
 
@@ -107,11 +108,11 @@ export default function TwoFAPage() {
               </span>
             ))}
           </div>
-          <button onClick={handleContinue}>I've saved my backup codes</button>
+          <button onClick={handleContinue}>I&apos;ve saved my backup codes</button>
         </div>
       ) : (
         <>
-          {qrCode && <img src={qrCode} alt="2FA QR Code" />}
+          {qrCode && <Image src={qrCode} alt="2FA QR Code" width={240} height={240} />}
           {!qrCode && !isLoading && <p>No QR code available. Please refresh.</p>}
           {isLoading && <p>Loading QR code...</p>}
 
